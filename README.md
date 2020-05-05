@@ -1,5 +1,11 @@
 # harvard_art
 
+## About the project
+This project was created for studying purposes only. In the project Harvard Art API is used.
+
+## Marvel API
+Insert your key into harvard_art/src/harvard_api.js
+
 ## Project setup
 ```
 npm install
