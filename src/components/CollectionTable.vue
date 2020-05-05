@@ -4,10 +4,17 @@
              v-for="item in collection"
              :id="item.objectid"
         >
-            <div class="collection_table__card-img"
-                 :style="[item.image ? {'background-image':`url(${item.image.baseimageurl}?height=200&width=200)`} : {'background-image':`url(${require('@/assets/images/logo_small.jpeg')})`}]"
-                 @click="showObjectData(item.objectid)"
-            ></div>
+            <vue-load-image>
+                <div slot="image"
+                     class="collection_table__card-img"
+                     :data-src="[item.image ? `${item.image.baseimageurl}?height=200&width=200`: `${require('@/assets/images/logo_small.jpeg')}`]"
+                     :style="[item.image ? {'background-image':`url(${item.image.baseimageurl}?height=200&width=200)`} : {'background-image':`url(${require('@/assets/images/logo_small.jpeg')})`}]"
+                     @click="showObjectData(item.objectid)"/>
+                <img slot="preloader"
+                     class="collection_table__card-img_loader"
+                     :src="require('@/assets/images/image-loader.gif')"/>
+                <div slot="error">error message</div>
+            </vue-load-image>
             <div class="card__btn">
                 <div v-if="item.is_favourite"
                      class="card__btn-remove"
@@ -34,6 +41,8 @@
 </template>
 
 <script>
+  import VueLoadImage from 'vue-load-image'
+
   export default {
     name: "CollectionTable",
     props: {
@@ -49,6 +58,9 @@
       collection: {
         type: Array,
       }
+    },
+    components: {
+      'vue-load-image': VueLoadImage
     },
     methods: {
       favouritesHandler: function (id) {
@@ -83,6 +95,10 @@
         background-size: contain;
         background-position: center;
         cursor: pointer;
+    }
+
+    .collection_table__card-img_loader {
+        height: 200px;
     }
 
     .card__btn {

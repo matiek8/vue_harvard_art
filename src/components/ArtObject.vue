@@ -4,9 +4,16 @@
         <div class="modal__content">
             <span class="modal__close"
                   @click="closeObjectData">&times;</span>
-            <img :src="objectData.image? `${objectData.image.baseimageurl}`: logo"
-                 class="modal__image"
-                 alt="">
+            <vue-load-image>
+                <img :src="objectData.image? `${objectData.image.baseimageurl}`: logo"
+                     slot="image"
+                     class="modal__image"
+                     alt="">
+                <img slot="preloader"
+                     class="modal__image_loader"
+                     :src="require('@/assets/images/image-loader.gif')"/>
+                <div slot="error">error message</div>
+            </vue-load-image>
             <hr>
             <div class="modal__description">
                 <h1 class="modal__description_title">Описание</h1>
@@ -34,6 +41,7 @@
 </template>
 
 <script>
+  import VueLoadImage from 'vue-load-image'
 
   export default {
     name: "ArtObject",
@@ -43,6 +51,9 @@
       }, onCloseObjectData: {
         type: Function,
       }
+    },
+    components: {
+      'vue-load-image': VueLoadImage
     },
     data() {
       return {
@@ -102,6 +113,10 @@
     .modal__image {
         max-width: 400px;
         max-height: 400px;
+    }
+
+    .modal__image_loader {
+         max-height: 400px;
     }
 
     .modal__description {
